@@ -2,6 +2,7 @@ package com.openclassrooms.chatop.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,9 +25,13 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserModel user = userRepository.findByUsername(username);
-        return new User(user.getUsername(), user.getPassword(), getGrantedAuthorities("user"));
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Optional<UserModel> user = userRepository.findByEmail(email);
+        if (user.isPresent()) {
+            return new User(user.get().getEmail(), user.get().getPassword(), getGrantedAuthorities("USER"));
+        } else {
+            throw new UsernameNotFoundException("User not found");
+        }
     }
 
     private List<GrantedAuthority> getGrantedAuthorities(String role) {
