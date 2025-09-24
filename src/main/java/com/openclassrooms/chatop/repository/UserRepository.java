@@ -9,6 +9,5 @@ import com.openclassrooms.chatop.model.UserModel;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserModel, Integer> {
-    Optional<UserModel> findByUsername(String username);
     Optional<UserModel> findByEmail(String email);
 }

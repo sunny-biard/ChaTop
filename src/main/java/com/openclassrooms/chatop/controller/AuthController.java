@@ -53,16 +53,12 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest req) {
-        if (userRepository.findByUsername(req.getUsername()).isPresent()) {
-            return ResponseEntity.badRequest().body("Username already taken");
-        }
-
         if (userRepository.findByEmail(req.getEmail()).isPresent()) {
             return ResponseEntity.badRequest().body("Email already taken");
         }
 
         UserModel user = new UserModel();
-        user.setUsername(req.getUsername());
+        user.setName(req.getName());
         user.setEmail(req.getEmail());
         user.setPassword(passwordEncoder.encode(req.getPassword()));
         user.setCreated_at(new Date(System.currentTimeMillis()));
@@ -79,13 +75,13 @@ public class AuthController {
             return ResponseEntity.status(401).body("Unauthorized");
         }
 
-        Optional<UserModel> userOpt = userRepository.findByUsername(userDetails.getUsername());
+        Optional<UserModel> userOpt = userRepository.findByEmail(userDetails.getUsername());
         if (userOpt.isEmpty()) {
             return ResponseEntity.status(404).body("User not found");
         }
 
         UserModel user = userOpt.get();
-        return ResponseEntity.ok(new UserDto(user.getId(), user.getUsername()));
+        return ResponseEntity.ok(new UserDto(user.getName(), user.getEmail(), user.getCreated_at(), user.getUpdated_at()));
     }
 
     @Data
@@ -96,7 +92,7 @@ public class AuthController {
 
     @Data
     public static class RegisterRequest {
-        private String username;
+        private String name;
         private String email;
         private String password;
     }
@@ -112,12 +108,16 @@ public class AuthController {
 
     @Data
     public static class UserDto {
-        private Integer id;
-        private String username;
+        private String name;
+        private String email;
+        private Date created_at;
+        private Date updated_at;
 
-        public UserDto(Integer id, String username) {
-            this.id = id;
-            this.username = username;
+        public UserDto(String name, String email, Date created_at, Date updated_at) {
+            this.name = name;
+            this.email = email;
+            this.created_at = created_at;
+            this.updated_at = updated_at;
         }
     }
 }
