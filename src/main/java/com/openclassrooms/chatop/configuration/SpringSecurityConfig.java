@@ -20,12 +20,12 @@ import com.openclassrooms.chatop.service.UserService;;
 public class SpringSecurityConfig {
 
     @Autowired
-    private JwtAuthentificationFilter jwtAuthFilter;
+    private JwtAuthFilter jwtAuthFilter;
 
     @Autowired
     private UserService userService;
 
-    public SpringSecurityConfig(JwtAuthentificationFilter jwtAuthFilter, UserService userService) {
+    public SpringSecurityConfig(JwtAuthFilter jwtAuthFilter, UserService userService) {
         this.jwtAuthFilter = jwtAuthFilter;
         this.userService = userService;
     }

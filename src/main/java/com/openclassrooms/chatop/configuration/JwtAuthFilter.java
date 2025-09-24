@@ -18,7 +18,7 @@ import com.openclassrooms.chatop.service.UserService;
 import java.io.IOException;
 
 @Component
-public class JwtAuthentificationFilter extends OncePerRequestFilter {
+public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Autowired
     private JwtService jwtService;
