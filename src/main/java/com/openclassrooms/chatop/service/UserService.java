@@ -16,14 +16,19 @@ import org.springframework.stereotype.Service;
 import com.openclassrooms.chatop.model.UserModel;
 import com.openclassrooms.chatop.repository.UserRepository;
 
-import lombok.Data;
-
-@Data
 @Service
 public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
+
+    public UserModel saveUser(UserModel user) {
+        return userRepository.save(user);
+    }
+
+    public Optional<UserModel> getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<UserModel> user = userRepository.findByEmail(email);
