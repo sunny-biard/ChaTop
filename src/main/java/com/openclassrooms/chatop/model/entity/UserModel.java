@@ -1,4 +1,4 @@
-package com.openclassrooms.chatop.model;
+package com.openclassrooms.chatop.model.entity;
 
 import java.sql.Date;
 
@@ -12,21 +12,21 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "messages")
-public class MessageModel {
+@Table(name = "users")
+public class UserModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column
-    private int rental_id;
+    private String email;
 
     @Column
-    private int user_id;
+    private String name;
 
     @Column
-    private String message;
+    private String password;
 
     @Column
     private Date created_at;

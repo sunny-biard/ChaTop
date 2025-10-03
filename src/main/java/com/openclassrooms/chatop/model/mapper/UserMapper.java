@@ -1,8 +1,9 @@
-package com.openclassrooms.chatop.model.dto;
+package com.openclassrooms.chatop.model.mapper;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.openclassrooms.chatop.model.UserModel;
+import com.openclassrooms.chatop.model.dto.RegisterRequest;
+import com.openclassrooms.chatop.model.entity.UserModel;
 
 import java.sql.Date;
 

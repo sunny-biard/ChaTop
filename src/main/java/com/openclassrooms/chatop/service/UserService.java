@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.openclassrooms.chatop.model.UserModel;
+import com.openclassrooms.chatop.model.entity.UserModel;
 import com.openclassrooms.chatop.repository.UserRepository;
 
 @Service
@@ -26,22 +26,22 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
-    public Optional<UserModel> getUserByEmail(String email) {
+    public UserModel getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<UserModel> user = userRepository.findByEmail(email);
-        if (user.isPresent()) {
-            return new User(user.get().getEmail(), user.get().getPassword(), getGrantedAuthorities("USER"));
+        UserModel user = userRepository.findByEmail(email);
+        if (user != null) {
+            return new User(user.getEmail(), user.getPassword(), getGrantedAuthorities());
         } else {
             throw new UsernameNotFoundException("User not found");
         }
     }
 
-    private List<GrantedAuthority> getGrantedAuthorities(String role) {
+    private List<GrantedAuthority> getGrantedAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
+        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         return authorities;
     }
 }
